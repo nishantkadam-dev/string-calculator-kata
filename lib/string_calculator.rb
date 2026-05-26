@@ -14,7 +14,14 @@ class StringCalculator
     if numbers.start_with?('//')
       header, nums_str = numbers.split("\n", 2)
       custom_delimiter = header[2..-1] # get the part after '//'
-      delimiters << custom_delimiter
+      # support multiple delimiters in [delim] format
+      if custom_delimiter.start_with?('[')
+        custom_delimiter.scan(/\[(.*?)\]/).flatten.each do |d|
+          delimiters << d
+        end
+      else
+        delimiters << custom_delimiter
+      end
     end
 
     nums = nums_str.split(Regexp.union(delimiters)).map(&:to_i)
