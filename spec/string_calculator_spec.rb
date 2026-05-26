@@ -17,5 +17,10 @@ RSpec.describe StringCalculator do
       sc = StringCalculator.new
       expect(sc.add("1,2")).to eq(3)
     end
+
+    it "handle an unknown amount of numbers and newlines as delimiters" do
+      sc = StringCalculator.new
+      expect(sc.add("1\n2,3")).to eq(6)
+    end
   end
 end
