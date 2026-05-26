@@ -8,6 +8,7 @@ class StringCalculator
     return 0 if numbers.empty? || numbers.nil?
     # default delimiters: comma and newline
     delimiters = [',', "\n"]
-    numbers.split(Regexp.union(delimiters)).map(&:to_i).sum
+    nums = numbers.split(Regexp.union(delimiters)).map(&:to_i)
+    nums.sum
   end
 end
