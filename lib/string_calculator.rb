@@ -6,7 +6,8 @@ class StringCalculator
   def add(numbers)
     @count += 1
     return 0 if numbers.empty? || numbers.nil?
-    # support for comma-separated numbers for now
-    numbers.split(',').map(&:to_i).sum 
+    # default delimiters: comma
+    delimiters = [',']
+    numbers.split(Regexp.union(delimiters)).map(&:to_i).sum
   end
 end
