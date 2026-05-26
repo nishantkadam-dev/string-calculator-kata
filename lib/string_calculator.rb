@@ -23,4 +23,8 @@ class StringCalculator
 
     nums.sum
   end
+
+  def get_called_count
+    @count
+  end
 end
