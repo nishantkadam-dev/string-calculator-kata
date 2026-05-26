@@ -22,5 +22,10 @@ RSpec.describe StringCalculator do
       sc = StringCalculator.new
       expect(sc.add("1\n2,3")).to eq(6)
     end
+
+    it 'supports custom single-character delimiter specified in header' do
+      sc = StringCalculator.new
+      expect(sc.add("//;\n1;2")).to eq(3)
+    end
   end
 end
