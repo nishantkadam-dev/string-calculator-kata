@@ -5,31 +5,29 @@ class StringCalculator
 
   def add(numbers)
     @count += 1
-    return 0 if numbers.empty? || numbers.nil?
-    # default delimiters: comma and newline
+    return 0 if numbers.nil? || numbers.empty?
+
     delimiters = [',', "\n"]
     nums_str = numbers
-    
+
     # check for custom delimiter in header
     if numbers.start_with?('//')
       header, nums_str = numbers.split("\n", 2)
-      custom_delimiter = header[2..-1] # get the part after '//'
-      # support multiple delimiters in [delim] format
-      if custom_delimiter.start_with?('[')
-        custom_delimiter.scan(/\[(.*?)\]/).flatten.each do |d|
-          delimiters << d
-        end
-      else
-        delimiters << custom_delimiter
-      end
+      custom_delimiter = header[2..]
+
+      delimiters += if custom_delimiter.start_with?('[')
+                      custom_delimiter.scan(/\[(.*?)\]/).flatten
+                    else
+                      [custom_delimiter]
+                    end
     end
 
     nums = nums_str.split(Regexp.union(delimiters)).map(&:to_i)
-    negatives = nums.select { |n| n < 0 }
-    raise "negatives not allowed: #{negatives.join(',')}" unless negatives.empty?
 
-    result = nums.select { |n| n <= 1000 }.sum
-    result
+    negatives = nums.select(&:negative?)
+    raise "negatives not allowed: #{negatives.join(',')}" if negatives.any?
+
+    nums.reject { |n| n > 1000 }.sum
   end
 
   def get_called_count
